@@ -80,20 +80,6 @@ export default {
   },
 
   effects: {
-    *fetchTeacherList({ payload }, { call, put }) {
-      const res = yield call(queryTeacherList, payload);
-      if (res.errorcode === 0) {
-        yield put({
-          type: 'save',
-          payload: {
-            tuitionIncome: {
-              sum: res.sum,
-              cm: res.cm,
-            },
-          },
-        });
-      }
-    },
     *fetchTuitionIncome({ payload }, { call, put }) {
       const res = yield call(queryTuitionIncome, payload);
       if (res.errorcode === 0) {
@@ -137,6 +123,20 @@ export default {
       }
     },
     *fetchWageExpenditure({ payload }, { call, put }) {
+      const res = yield call(queryWageExpenditure, payload);
+      if (res.errorcode === 0) {
+        yield put({
+          type: 'save',
+          payload: {
+            investIncome: {
+              sum: res.sum,
+              cm: res.cm,
+            },
+          },
+        });
+      }
+    },
+    *fetchOtherExpenditure({ payload }, { call, put }) {
       const res = yield call(queryWageExpenditure, payload);
       if (res.errorcode === 0) {
         yield put({

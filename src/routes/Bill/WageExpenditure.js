@@ -14,11 +14,11 @@ import {
   Col,
   Select,
 } from 'antd';
-import DescriptionList from 'components/DescriptionList';
+// import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './style.less';
 
-const { Description } = DescriptionList;
+// const { Description } = DescriptionList;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
@@ -65,10 +65,10 @@ const columns = [
 @Form.create()
 export default class WageExpenditure extends PureComponent {
   componentDidMount() {
-    // const { dispatch } = this.props;
-    // dispatch({
-    //   type: 'bill/fetchWageExpenditure',
-    // });
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'bill/fetchWageExpenditure',
+    });
   }
 
   handleSubmit = e => {
@@ -84,7 +84,15 @@ export default class WageExpenditure extends PureComponent {
   };
 
   handleSearch(e) {
-    console.log(e, this);
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        this.props.dispatch({
+          type: 'bill/fetchWageExpenditure',
+          payload: values,
+        });
+      }
+    });
   }
 
   renderTeacherBillForm() {
@@ -165,11 +173,6 @@ export default class WageExpenditure extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="日期">
-              {getFieldDecorator('duration')(<RangePicker placeholder="请输入" />)}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
             <FormItem label="教师">
               {getFieldDecorator('teacherid')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
@@ -177,6 +180,11 @@ export default class WageExpenditure extends PureComponent {
                   <Option value="1">运行中</Option>
                 </Select>
               )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="日期">
+              {getFieldDecorator('duration')(<RangePicker placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
@@ -204,10 +212,10 @@ export default class WageExpenditure extends PureComponent {
           </Card>
           <Card title="查询工资支出" className={styles.card} bordered={false}>
             <div style={{ margin: 8 }}>{this.renderSimpleForm()}</div>
-            <DescriptionList size="large" title="工资支出概览" style={{ marginBottom: 32 }}>
+            {/* <DescriptionList size="large" title="工资支出概览" style={{ marginBottom: 32 }}>
               <Description term="总支出">{wageExpenditure.outline.sum}</Description>
               <Description term="此月支出">{wageExpenditure.outline.cm}</Description>
-            </DescriptionList>
+            </DescriptionList> */}
             <Table columns={columns} dataSource={wageExpenditure.data} loading={loading} />
           </Card>
         </Card>

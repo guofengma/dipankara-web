@@ -27,8 +27,8 @@ const columns = [
   },
   {
     title: '日期',
-    dataIndex: 'expenditure',
-    key: 'expenditure',
+    dataIndex: 'date',
+    key: 'date',
   },
   {
     title: '描述',
@@ -36,14 +36,14 @@ const columns = [
     key: 'disc',
   },
   {
-    title: '多少钱',
+    title: '金额',
     dataIndex: 'fee',
     key: 'fee',
   },
 ];
 
 @connect(({ loading, bill }) => ({
-  submitting: loading.effects['form/submitRegularForm'],
+  loading: loading.effects['bill/fetchOtherExpenditure'],
   otherExpenditure: bill.otherExpenditure,
 }))
 @Form.create()
@@ -53,7 +53,7 @@ export default class OtherExpenditure extends PureComponent {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.dispatch({
-          type: 'form/submitRegularForm',
+          type: 'form/fetchOtherExpenditure',
           payload: values,
         });
       }
