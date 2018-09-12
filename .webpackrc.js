@@ -48,6 +48,10 @@ export default {
       target: 'http://127.0.0.1:7001',
       changeOrigin: true,
     },
+    '/api/teacher/fetch': {
+      target: 'http://127.0.0.1:7001',
+      changeOrigin: true,
+    },
     '/api/bill/fetch_tuition_income': {
       target: 'http://127.0.0.1:7001',
       changeOrigin: true,
@@ -56,7 +60,19 @@ export default {
       target: 'http://127.0.0.1:7001',
       changeOrigin: true,
     },
+    '/api/bill/fetch_other_income': {
+      target: 'http://127.0.0.1:7001',
+      changeOrigin: true,
+    },
     '/api/bill/fetch_wage_expenditure': {
+      target: 'http://127.0.0.1:7001',
+      changeOrigin: true,
+    },
+    '/api/bill/fetch_suit_expenditure': {
+      target: 'http://127.0.0.1:7001',
+      changeOrigin: true,
+    },
+    '/api/bill/fetch_other_expenditure': {
       target: 'http://127.0.0.1:7001',
       changeOrigin: true,
     },

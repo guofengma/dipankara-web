@@ -37,6 +37,17 @@ const menuData = [
     ],
   },
   {
+    name: '班级',
+    icon: 'form',
+    path: 'class',
+    children: [
+      {
+        name: '学生报名',
+        path: 'enroll',
+      },
+    ],
+  },
+  {
     name: '账单',
     icon: 'form',
     path: 'bill',
@@ -58,8 +69,12 @@ const menuData = [
         path: 'wage-expenditure',
       },
       {
+        name: '套件支出',
+        path: 'suit-expenditure',
+      },
+      {
         name: '其他支出',
-        path: 'other-wxpenditure',
+        path: 'other-expenditure',
       },
       {
         name: '总营收',

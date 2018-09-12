@@ -3,11 +3,7 @@ import { connect } from 'dva';
 import {
   Form,
   Card,
-  List,
-  // InputNumber,
-  // Radio,
-  // Icon,
-  // Tooltip,
+  Table,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 // import styles from './style.less';
@@ -15,7 +11,7 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 @connect(({ bill, loading }) => ({
   otherIncome: bill.otherIncome,
-  submitting: loading.effects['form/submitRegularForm'],
+  loading: loading.effects['bill/fetchOtherIncome'],
 }))
 @Form.create()
 export default class OtherIncome extends PureComponent {
@@ -27,18 +23,32 @@ export default class OtherIncome extends PureComponent {
   }
 
   render() {
-    const { otherIncome } = this.props;
-    // const { getFieldDecorator, getFieldValue } = this.props.form;
+    const { otherIncome, loading } = this.props;
+    const dataSource = otherIncome.months;
+    const columns = [{
+        title: '名称',
+        dataIndex: 'name',
+        key: 'name',
+      }, {
+        title: '额度',
+        dataIndex: 'fee',
+        key: 'fee',
+      }, {
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
+      }];
 
     return (
       <PageHeaderLayout title="其他收入" content="其他收入概览">
-        <Card title="收入列表" bordered={false}>
-          <List
-            header={<div>Header</div>}
-            footer={<div>Footer</div>}
-            bordered
-            dataSource={otherIncome.data}
-            renderItem={item => <List.Item>{item}</List.Item>}
+        <Card bordered={false}>
+          <Table
+            style={{ marginBottom: 24 }}
+            pagination={false}
+            loading={loading}
+            dataSource={dataSource}
+            columns={columns}
+            rowKey="name"
           />
         </Card>
       </PageHeaderLayout>

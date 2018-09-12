@@ -96,6 +96,12 @@ export const getRouterData = app => {
     '/student/querycalllist': {
       component: dynamicWrapper(app, ['student'], () => import('../routes/Student/QueryCallList')),
     },
+    '/class/querycalllist': {
+      component: dynamicWrapper(app, ['class'], () => import('../routes/Class/QueryCallList')),
+    },
+    '/teacher/querycalllist': {
+      component: dynamicWrapper(app, ['teacher'], () => import('../routes/Class/QueryCallList')),
+    },
     '/bill/tuition-income': {
       component: dynamicWrapper(app, ['bill'], () => import('../routes/Bill/TuitionIncome')),
     },
@@ -108,7 +114,10 @@ export const getRouterData = app => {
     '/bill/wage-expenditure': {
       component: dynamicWrapper(app, ['bill'], () => import('../routes/Bill/WageExpenditure')),
     },
-    '/bill/other-wxpenditure': {
+    '/bill/suit-expenditure': {
+      component: dynamicWrapper(app, ['bill'], () => import('../routes/Bill/SuitExpenditure')),
+    },
+    '/bill/other-expenditure': {
       component: dynamicWrapper(app, ['bill'], () => import('../routes/Bill/OtherExpenditure')),
     },
     '/bill/revenue': {

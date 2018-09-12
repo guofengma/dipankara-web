@@ -19,35 +19,20 @@ const fieldLabels = {
   type2: '任务类型',
 };
 
-const columns = [
-  {
-    title: '名称',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: '日期',
-    dataIndex: 'date',
-    key: 'date',
-  },
-  {
-    title: '描述',
-    dataIndex: 'disc',
-    key: 'disc',
-  },
-  {
-    title: '金额',
-    dataIndex: 'fee',
-    key: 'fee',
-  },
-];
-
 @connect(({ loading, bill }) => ({
   loading: loading.effects['bill/fetchOtherExpenditure'],
   otherExpenditure: bill.otherExpenditure,
 }))
 @Form.create()
 export default class OtherExpenditure extends PureComponent {
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'bill/fetchOtherExpenditure',
+    });
+  }
+
   handleSubmitExpenditure(e) {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -172,19 +157,34 @@ export default class OtherExpenditure extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="规则编号">
-              {getFieldDecorator('no')(<Input placeholder="请输入" />)}
+            <FormItem label="月份">
+              {getFieldDecorator('month')(
+                <Select placeholder="请选择" style={{ width: 200 }}>
+                  <Option value="1">1月份</Option>
+                  <Option value="2">2月份</Option>
+                  <Option value="3">3月份</Option>
+                  <Option value="4">4月份</Option>
+                  <Option value="5">5月份</Option>
+                  <Option value="6">6月份</Option>
+                  <Option value="7">7月份</Option>
+                  <Option value="8">8月份</Option>
+                  <Option value="9">9月份</Option>
+                  <Option value="10">10月份</Option>
+                  <Option value="11">11月份</Option>
+                  <Option value="12">12月份</Option>
+                </Select>
+              )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="使用状态">
+            {/* <FormItem label="月份">
               {getFieldDecorator('status')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
+                <Select placeholder="请选择" style={{ width: 200 }}>
                   <Option value="0">关闭</Option>
                   <Option value="1">运行中</Option>
                 </Select>
               )}
-            </FormItem>
+            </FormItem> */}
           </Col>
           <Col md={8} sm={24}>
             <span className={styles.submitButtons}>
@@ -202,7 +202,22 @@ export default class OtherExpenditure extends PureComponent {
   }
 
   render() {
-    const { otherExpenditure } = this.props;
+    const { otherExpenditure, loading } = this.props;
+    const dataSource = otherExpenditure.months;
+    const columns = [{
+        title: '名称',
+        dataIndex: 'name',
+        key: 'name',
+      }, {
+        title: '额度',
+        dataIndex: 'fee',
+        key: 'fee',
+      }, {
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
+      }];
+
     return (
       <PageHeaderLayout title="其他支出" content="详细介绍其他支出数据">
         <Card bordered={false}>
@@ -211,8 +226,9 @@ export default class OtherExpenditure extends PureComponent {
             <div>{this.renderSearchForm()}</div>
             <Table
               styles={{ marginTop: 20 }}
+              loading={loading}
               columns={columns}
-              dataSource={otherExpenditure.tableData}
+              dataSource={dataSource}
             />
           </Card>
         </Card>

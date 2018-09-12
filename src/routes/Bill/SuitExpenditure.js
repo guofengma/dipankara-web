@@ -21,22 +21,16 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 
-@connect(({ teacher, bill, loading }) => ({
-  loading: loading.effects['bill/fetchWageExpenditure'],
-  submittingBill: loading.effects['bill/submitTeacherBillForm'],
-  submitting: loading.effects['bill/submitTeacherForm'],
-  wageExpenditure: bill.wageExpenditure,
-  teachers: teacher.teachers,
+@connect(({ bill, loading }) => ({
+  loading: loading.effects['bill/fetchSuitExpenditure'],
+  suitExpenditure: bill.suitExpenditure,
 }))
 @Form.create()
-export default class WageExpenditure extends PureComponent {
+export default class SuitExpenditure extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'teacher/fetchTeacherList',
-    })
-    dispatch({
-      type: 'bill/fetchWageExpenditure',
+      type: 'bill/fetchSuitExpenditure',
     });
   }
 
@@ -67,7 +61,7 @@ export default class WageExpenditure extends PureComponent {
   handleFormReset(e) {
   }
 
-  renderTeacherBillForm() {
+  renderSuitBillForm() {
     const { submitting } = this.props;
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -89,7 +83,7 @@ export default class WageExpenditure extends PureComponent {
     };
     return (
       <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-        <FormItem {...formItemLayout} label="姓名">
+        <FormItem {...formItemLayout} label="套件">
           {getFieldDecorator('name', {
             rules: [
               {
@@ -97,7 +91,14 @@ export default class WageExpenditure extends PureComponent {
                 message: '请输入老师姓名',
               },
             ],
-          })(<Input placeholder="老师姓名" />)}
+          })(
+            <Select placeholder="请选择" style={{ width: '100%' }}>
+              <Option key="1">5岁套件</Option>
+              <Option key="1">7岁套件</Option>
+              <Option key="1">9岁套件</Option>
+              <Option key="1">11岁套件</Option>
+            </Select>
+          )}
         </FormItem>
         <FormItem {...formItemLayout} label="日期">
           {getFieldDecorator('date', {
@@ -178,8 +179,8 @@ export default class WageExpenditure extends PureComponent {
   }
 
   render() {
-    const { wageExpenditure, loading } = this.props;
-    const dataSource = wageExpenditure.months;
+    const { suitExpenditure, loading } = this.props;
+    const dataSource = suitExpenditure.months;
     const columns = [{
         title: '名称',
         dataIndex: 'name',
@@ -190,16 +191,14 @@ export default class WageExpenditure extends PureComponent {
         key: 'fee',
     }];
     return (
-      <PageHeaderLayout title="教师支出" content="加入把所有报名的信息参加到。">
+      <PageHeaderLayout title="套件支出" content="所有套件支出列表。">
         <Card bordered={false}>
-          <Card title="添加工资支出" className={styles.card} bordered={false}>
-            <div>{this.renderTeacherBillForm()}</div>
+          <Card title="添加套件支出" className={styles.card} bordered={false}>
+            <div>{this.renderSuitBillForm()}</div>
           </Card>
-          <Card title="查询工资支出" className={styles.card} bordered={false}>
-            <div style={{ margin: 8 }}>{this.renderSearchForm()}</div>
+          <Card title="查询套件支出" className={styles.card} bordered={false}>
             <Table
               style={{ marginBottom: 24 }}
-              pagination={false}
               loading={loading}
               dataSource={dataSource}
               columns={columns}

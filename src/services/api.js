@@ -121,6 +121,18 @@ export async function queryInvestIncome() {
   return request('/api/bill/fetch_invest_income');
 }
 
+export async function queryOtherIncome() {
+  return request('/api/bill/fetch_other_income');
+}
+
 export async function queryWageExpenditure() {
   return request('/api/bill/fetch_wage_expenditure');
+}
+
+export async function querySuitExpenditure() {
+  return request('/api/bill/fetch_suit_expenditure');
+}
+
+export async function queryOtherExpenditure() {
+  return request('/api/bill/fetch_other_expenditure');
 }

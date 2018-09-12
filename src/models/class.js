@@ -4,11 +4,10 @@ import { queryTeacherList } from '../services/api';
 // import { stat } from 'fs';
 
 export default {
-  namespace: 'teacher',
+  namespace: 'class',
 
   state: {
     teachers: [],
-    cm: 0,
   },
 
   effects: {
@@ -18,7 +17,9 @@ export default {
         yield put({
           type: 'save',
           payload: {
-            teachers: res.teacherList,
+            query: {
+              tableData: res.tableData,
+            },
           },
         });
       } else {
@@ -54,4 +55,14 @@ export default {
     },
   },
 
+  // subscriptions: {
+  //   setup({ dispatch, history }) {
+  //     // Subscribe history(url) change, trigger `load` action if pathname is `/`
+  //     return history.listen(({ pathname }) => {
+  //       if (pathname === '/student/query') {
+  //         dispatch({ type: 'fetchStudents', payload: null });
+  //       }
+  //     });
+  //   },
+  // },
 };
