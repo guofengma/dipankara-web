@@ -136,3 +136,7 @@ export async function querySuitExpenditure() {
 export async function queryOtherExpenditure() {
   return request('/api/bill/fetch_other_expenditure');
 }
+
+export async function queryRevenue() {
+  return request('/api/bill/fetch_revenue');
+}
