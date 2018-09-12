@@ -1,4 +1,4 @@
-import { query as queryUsers, queryCurrent } from '../services/user';
+import { query as queryUsers, queryCurrent } from '@/services/user';
 
 export default {
   namespace: 'user',
@@ -33,10 +33,9 @@ export default {
       };
     },
     saveCurrentUser(state, action) {
-      console.log(action.payload);
       return {
         ...state,
-        currentUser: action.payload,
+        currentUser: action.payload || {},
       };
     },
     changeNotifyCount(state, action) {
