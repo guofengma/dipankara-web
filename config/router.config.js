@@ -31,6 +31,19 @@ export default [
           },
         ],
       },
+      // class
+      {
+        path: '/class',
+        name: 'class',
+        icon: 'dashboard',
+        routes: [
+          {
+            path: '/class/query',
+            name: 'query',
+            component: './Class/QueryCallList',
+          },
+        ],
+      },
       // bill
       {
         path: '/bill',
@@ -43,14 +56,34 @@ export default [
             component: './Bill/TuitionIncome',
           },
           {
-            path: '/dashboard/monitor',
-            name: 'monitor',
-            component: './Dashboard/Monitor',
+            path: '/bill/invest-income',
+            name: 'invest-income',
+            component: './Bill/InvestIncome',
           },
           {
-            path: '/dashboard/workplace',
-            name: 'workplace',
-            component: './Dashboard/Workplace',
+            path: '/bill/other-income',
+            name: 'other-income',
+            component: './Bill/OtherIncome',
+          },
+          {
+            path: '/bill/wage-expenditure',
+            name: 'wage-expenditure',
+            component: './Bill/WageExpenditure',
+          },
+          {
+            path: '/bill/suit-expenditure',
+            name: 'suit-expenditure',
+            component: './Bill/SuitExpenditure',
+          },
+          {
+            path: '/bill/other-expenditure',
+            name: 'other-expenditure',
+            component: './Bill/OtherExpenditure',
+          },
+          {
+            path: '/bill/revenue',
+            name: 'revenue',
+            component: './Bill/Revenue',
           },
         ],
       },

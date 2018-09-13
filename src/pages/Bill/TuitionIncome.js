@@ -3,13 +3,12 @@ import { connect } from 'dva';
 import { Card, Divider, Table } from 'antd';
 // import DescriptionList from 'components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-// import styles from './BasicProfile.less';
 
 @connect(({ bill, loading }) => ({
   tuitionIncome: bill.tuitionIncome,
   loading: loading.effects['bill/fetchTuitionIncome'],
 }))
-export default class TuitionIncome extends Component {
+class TuitionIncome extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -20,15 +19,18 @@ export default class TuitionIncome extends Component {
   render() {
     const { tuitionIncome, loading } = this.props;
     const dataSource = tuitionIncome.months;
-    const columns = [{
+    const columns = [
+      {
         title: '名称',
         dataIndex: 'name',
         key: 'name',
-      }, {
+      },
+      {
         title: '额度',
         dataIndex: 'fee',
         key: 'fee',
-    }];
+      },
+    ];
     return (
       <PageHeaderWrapper title="学费收入">
         <Card bordered={false}>
@@ -46,3 +48,5 @@ export default class TuitionIncome extends Component {
     );
   }
 }
+
+export default TuitionIncome;

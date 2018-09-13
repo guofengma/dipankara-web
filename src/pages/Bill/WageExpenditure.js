@@ -1,19 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import {
-  Form,
-  Table,
-  Card,
-  Input,
-  Button,
-  InputNumber,
-  DatePicker,
-  Row,
-  Col,
-  Select,
-} from 'antd';
+import { Form, Table, Card, Input, Button, InputNumber, DatePicker, Row, Col, Select } from 'antd';
 // import DescriptionList from 'components/DescriptionList';
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './style.less';
 
 // const { Description } = DescriptionList;
@@ -29,22 +18,23 @@ const FormItem = Form.Item;
   teachers: teacher.teachers,
 }))
 @Form.create()
-export default class WageExpenditure extends PureComponent {
+class WageExpenditure extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
       type: 'teacher/fetchTeacherList',
-    })
+    });
     dispatch({
       type: 'bill/fetchWageExpenditure',
     });
   }
 
   handleSubmit = e => {
+    const { form, dispatch } = this.props;
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.dispatch({
+        dispatch({
           type: 'bill/submitTeacherBillForm',
           payload: values,
         });
@@ -53,10 +43,11 @@ export default class WageExpenditure extends PureComponent {
   };
 
   handleSearch(e) {
+    const { form, dispatch } = this.props;
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.dispatch({
+        dispatch({
           type: 'bill/submitTeacherForm',
           payload: values,
         });
@@ -64,12 +55,11 @@ export default class WageExpenditure extends PureComponent {
     });
   }
 
-  handleFormReset(e) {
-  }
+  // handleFormReset(e) {}
 
   renderTeacherBillForm() {
-    const { submitting } = this.props;
-    const { getFieldDecorator } = this.props.form;
+    const { submitting, form } = this.props;
+    const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -139,8 +129,8 @@ export default class WageExpenditure extends PureComponent {
   }
 
   renderSearchForm() {
-    const { wageExpenditure, teachers } = this.props;
-    const { getFieldDecorator } = this.props.form;
+    const { teachers, form } = this.props;
+    const { getFieldDecorator } = form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -148,11 +138,11 @@ export default class WageExpenditure extends PureComponent {
             <FormItem label="教师">
               {getFieldDecorator('teacherid')(
                 <Select placeholder="请选择" style={{ width: 200 }}>
-                  {
-                    teachers.map((e) => {
-                      return (<Option key={e.value} value={e.value}>{e.name}</Option>);
-                    })
-                  }
+                  {teachers.map(e => (
+                    <Option key={e.value} value={e.value}>
+                      {e.name}
+                    </Option>
+                  ))}
                 </Select>
               )}
             </FormItem>
@@ -180,17 +170,20 @@ export default class WageExpenditure extends PureComponent {
   render() {
     const { wageExpenditure, loading } = this.props;
     const dataSource = wageExpenditure.months;
-    const columns = [{
+    const columns = [
+      {
         title: '名称',
         dataIndex: 'name',
         key: 'name',
-      }, {
+      },
+      {
         title: '额度',
         dataIndex: 'fee',
         key: 'fee',
-    }];
+      },
+    ];
     return (
-      <PageHeaderLayout title="教师支出" content="加入把所有报名的信息参加到。">
+      <PageHeaderWrapper title="教师支出" content="加入把所有报名的信息参加到。">
         <Card bordered={false}>
           <Card title="添加工资支出" className={styles.card} bordered={false}>
             <div>{this.renderTeacherBillForm()}</div>
@@ -207,7 +200,9 @@ export default class WageExpenditure extends PureComponent {
             />
           </Card>
         </Card>
-      </PageHeaderLayout>
+      </PageHeaderWrapper>
     );
   }
 }
+
+export default WageExpenditure;

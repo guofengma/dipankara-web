@@ -1,11 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import {
-  Form,
-  Card,
-  Table,
-} from 'antd';
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import { Form, Card, Table } from 'antd';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 // import styles from './style.less';
 // import TableForm from './TableForm';
 
@@ -14,7 +10,7 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
   loading: loading.effects['bill/fetchOtherIncome'],
 }))
 @Form.create()
-export default class OtherIncome extends PureComponent {
+class OtherIncome extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -25,22 +21,26 @@ export default class OtherIncome extends PureComponent {
   render() {
     const { otherIncome, loading } = this.props;
     const dataSource = otherIncome.months;
-    const columns = [{
+    const columns = [
+      {
         title: '名称',
         dataIndex: 'name',
         key: 'name',
-      }, {
+      },
+      {
         title: '额度',
         dataIndex: 'fee',
         key: 'fee',
-      }, {
+      },
+      {
         title: '备注',
         dataIndex: 'remark',
         key: 'remark',
-      }];
+      },
+    ];
 
     return (
-      <PageHeaderLayout title="其他收入" content="其他收入概览">
+      <PageHeaderWrapper title="其他收入" content="其他收入概览">
         <Card bordered={false}>
           <Table
             style={{ marginBottom: 24 }}
@@ -51,7 +51,9 @@ export default class OtherIncome extends PureComponent {
             rowKey="name"
           />
         </Card>
-      </PageHeaderLayout>
+      </PageHeaderWrapper>
     );
   }
 }
+
+export default OtherIncome;

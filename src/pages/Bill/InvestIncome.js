@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Card, Divider, Table } from 'antd';
 // import DescriptionList from 'components/DescriptionList';
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 // import styles from './BasicProfile.less';
 
 // const { Description } = DescriptionList;
@@ -11,7 +11,7 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
   investIncome: bill.investIncome,
   loading: loading.effects['bill/fetchInvestIncome'],
 }))
-export default class InvestIncome extends Component {
+class InvestIncome extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -22,18 +22,21 @@ export default class InvestIncome extends Component {
   render() {
     const { investIncome, loading } = this.props;
     const dataSource = investIncome.months;
-    const columns = [{
+    const columns = [
+      {
         title: '名称',
         dataIndex: 'name',
         key: 'name',
-      }, {
+      },
+      {
         title: '额度',
         dataIndex: 'fee',
         key: 'fee',
-    }];
+      },
+    ];
 
     return (
-      <PageHeaderLayout title="投资收入">
+      <PageHeaderWrapper title="投资收入">
         <Card bordered={false}>
           <Table
             style={{ marginBottom: 24 }}
@@ -45,7 +48,9 @@ export default class InvestIncome extends Component {
           />
           <Divider style={{ marginBottom: 32 }} />
         </Card>
-      </PageHeaderLayout>
+      </PageHeaderWrapper>
     );
   }
 }
+
+export default InvestIncome;

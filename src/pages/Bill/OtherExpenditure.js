@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Form, Input, DatePicker, Select, Button, Card, Table, Col, Row, InputNumber } from 'antd';
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './style.less';
 // import TableForm from './TableForm';
 
@@ -24,8 +24,7 @@ const fieldLabels = {
   otherExpenditure: bill.otherExpenditure,
 }))
 @Form.create()
-export default class OtherExpenditure extends PureComponent {
-
+class OtherExpenditure extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -35,9 +34,10 @@ export default class OtherExpenditure extends PureComponent {
 
   handleSubmitExpenditure(e) {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    const { form, dispatch } = this.props;
+    form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.dispatch({
+        dispatch({
           type: 'form/fetchOtherExpenditure',
           payload: values,
         });
@@ -47,9 +47,10 @@ export default class OtherExpenditure extends PureComponent {
 
   handleSearch(e) {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    const { form, dispatch } = this.props;
+    form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.dispatch({
+        dispatch({
           type: 'form/submitRegularForm',
           payload: values,
         });
@@ -64,8 +65,8 @@ export default class OtherExpenditure extends PureComponent {
   }
 
   renderExpenditureForm() {
-    const { submitting } = this.props;
-    const { getFieldDecorator } = this.props.form;
+    const { submitting, form } = this.props;
+    const { getFieldDecorator } = form;
 
     const submitFormLayout = {
       wrapperCol: {
@@ -152,7 +153,8 @@ export default class OtherExpenditure extends PureComponent {
   }
 
   renderSearchForm() {
-    const { getFieldDecorator } = this.props.form;
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -204,22 +206,26 @@ export default class OtherExpenditure extends PureComponent {
   render() {
     const { otherExpenditure, loading } = this.props;
     const dataSource = otherExpenditure.months;
-    const columns = [{
+    const columns = [
+      {
         title: '名称',
         dataIndex: 'name',
         key: 'name',
-      }, {
+      },
+      {
         title: '额度',
         dataIndex: 'fee',
         key: 'fee',
-      }, {
+      },
+      {
         title: '备注',
         dataIndex: 'remark',
         key: 'remark',
-      }];
+      },
+    ];
 
     return (
-      <PageHeaderLayout title="其他支出" content="详细介绍其他支出数据">
+      <PageHeaderWrapper title="其他支出" content="详细介绍其他支出数据">
         <Card bordered={false}>
           <div>{this.renderExpenditureForm()}</div>
           <Card title="开销列表" bordered={false}>
@@ -232,7 +238,9 @@ export default class OtherExpenditure extends PureComponent {
             />
           </Card>
         </Card>
-      </PageHeaderLayout>
+      </PageHeaderWrapper>
     );
   }
 }
+
+export default OtherExpenditure;
