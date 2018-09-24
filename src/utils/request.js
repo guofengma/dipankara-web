@@ -2,6 +2,7 @@ import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import router from 'umi/router';
 import hash from 'hash.js';
+import cookies from 'js-cookie';
 import { isAntdPro } from './utils';
 
 const codeMessage = {
@@ -102,6 +103,11 @@ export default function request(
         ...newOptions.headers,
       };
     }
+    // crsf
+    newOptions.headers = {
+      'x-csrf-token': cookies.get('csrfToken'),
+      ...newOptions.headers,
+    };
   }
 
   const expirys = options.expirys || 60;
