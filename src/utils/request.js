@@ -109,6 +109,11 @@ export default function request(
       ...newOptions.headers,
     };
   }
+  // redirect
+  // newOptions.headers = {
+  //   redirect: "error",
+  //   ...newOptions.headers,
+  // }
 
   const expirys = options.expirys || 60;
   // options.expirys !== false, return the cache,
