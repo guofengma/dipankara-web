@@ -125,6 +125,11 @@ export async function getFakeCaptcha(mobile) {
   return request(`/api/captcha?mobile=${mobile}`);
 }
 
+// 主页
+export async function queryHome() {
+  return request('/api/home');
+}
+
 // 登录请求
 export async function submitAccountLogin(params) {
   return request('/api/login/account', {
@@ -133,6 +138,7 @@ export async function submitAccountLogin(params) {
   });
 }
 
+// 注册
 export async function submitRegister(params) {
   return request('/api/register', {
     method: 'POST',

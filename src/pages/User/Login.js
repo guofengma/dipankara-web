@@ -17,6 +17,13 @@ class LoginPage extends Component {
     autoLogin: true,
   };
 
+  // componentDidMount() {
+  //   const { dispatch } = this.props;
+  //   dispatch({
+  //     type: 'home/fetch',
+  //   });
+  // }
+
   onTabChange = type => {
     this.setState({ type });
   };
@@ -80,7 +87,7 @@ class LoginPage extends Component {
               login.type === 'account' &&
               !submitting &&
               this.renderMessage('账户或密码错误（admin/888888）')}
-            <UserName name="userName" placeholder="admin/user" />
+            <UserName name="username" placeholder="admin/user" />
             <Password
               name="password"
               placeholder="888888/123456"
