@@ -14,25 +14,31 @@ const { TextArea } = Input;
   student,
 }))
 @Form.create()
-export default class Enroll extends PureComponent {
+class Enroll extends PureComponent {
   handleSubmit = e => {
-    const { dispatch } = this.props;
-    const { validateFieldsAndScroll } = this.props.form;
+    const { dispatch, form } = this.props;
+    const { validateFieldsAndScroll } = form;
 
     e.preventDefault();
     validateFieldsAndScroll((err, values) => {
       if (!err) {
+        let param = values;
+        param = {
+          ...param,
+          birthday: param.birthday.format('YYYY-MM-DD HH:mm:ss'),
+          campusid: parseInt(values.campusid, 10),
+        };
         dispatch({
           type: 'student/submitEnrollForm',
-          payload: values,
+          payload: param,
         });
       }
     });
   };
 
   render() {
-    const { submitting } = this.props;
-    const { getFieldDecorator } = this.props.form;
+    const { submitting, form } = this.props;
+    const { getFieldDecorator } = form;
 
     const formItemLayout = {
       labelCol: {
@@ -90,7 +96,7 @@ export default class Enroll extends PureComponent {
             {/* 选择校区 */}
             <FormItem {...formItemLayout} label="校区">
               {getFieldDecorator('campusid')(
-                <Select mode="multiple" placeholder="校区">
+                <Select placeholder="校区">
                   <Option value="1">茂业</Option>
                   <Option value="2">西科大</Option>
                 </Select>
@@ -133,3 +139,5 @@ export default class Enroll extends PureComponent {
     );
   }
 }
+
+export default Enroll;

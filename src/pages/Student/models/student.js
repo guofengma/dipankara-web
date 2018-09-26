@@ -1,8 +1,8 @@
-// import { routerRedux } from 'dva/router';
+import { routerRedux } from 'dva/router';
 import { message } from 'antd';
 import {
-  // fakeSubmitForm,
   submitStudentEnroll,
+  submitStudentEnrollKe,
   queryStudents,
   queryClassList,
   queryClassStudents,
@@ -134,16 +134,27 @@ export default {
         message.success('失败');
       }
     },
-    *submitEnrollForm({ payload }, { call }) {
+    *submitEnrollForm({ payload }, { call, put }) {
       const res = yield call(submitStudentEnroll, payload);
       if (res.errorcode === 0) {
-        message.success('提交成功');
+        yield put(routerRedux.push('/result/success'));
+      } else {
+        yield put(routerRedux.push('/result/fail'));
       }
     },
-    *submitEnrollKeForm({ payload }, { call }) {
-      const res = yield call(submitStudentEnroll, payload);
+    *submitEnrollKeForm({ payload }, { call, put }) {
+      const params = {
+        name: payload.name,
+        date: payload.date.format('YYYY-MM-DD HH:mm:ss'),
+        course_kind_id: parseInt(payload.course_kind_id, 10),
+        num: payload.num,
+        fee: Math.round(payload.fee * 1000),
+      };
+      const res = yield call(submitStudentEnrollKe, params);
       if (res.errorcode === 0) {
-        message.success('提交成功');
+        yield put(routerRedux.push('/result/success'));
+      } else {
+        yield put(routerRedux.push('/result/fail'));
       }
     },
     *submitCheckInForm({ payload }, { call }) {

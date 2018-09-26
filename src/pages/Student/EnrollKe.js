@@ -11,7 +11,7 @@ import {
   // Icon,
   // Tooltip,
 } from 'antd';
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 // import styles from './style.less';
 
 const FormItem = Form.Item;
@@ -19,17 +19,18 @@ const { Option } = Select;
 // const { TextArea } = Input;
 
 @connect(({ loading, student }) => ({
-  submitting: loading.effects['student/submitRegularForm'],
+  submitting: loading.effects['student/submitEnrollKeForm'],
   student,
 }))
 @Form.create()
-export default class EnrollKe extends PureComponent {
+class EnrollKe extends PureComponent {
   handleSubmit = e => {
+    const { form, dispatch } = this.props;
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.dispatch({
-          type: 'student/submitEnrollForm',
+        dispatch({
+          type: 'student/submitEnrollKeForm',
           payload: values,
         });
       }
@@ -37,8 +38,8 @@ export default class EnrollKe extends PureComponent {
   };
 
   renderEnrollKe() {
-    const { submitting } = this.props;
-    const { getFieldDecorator } = this.props.form;
+    const { submitting, form } = this.props;
+    const { getFieldDecorator } = form;
 
     const formItemLayout = {
       labelCol: {
@@ -82,9 +83,12 @@ export default class EnrollKe extends PureComponent {
         </FormItem>
         <FormItem {...formItemLayout} label="课程">
           {getFieldDecorator('course_kind_id')(
-            <Select mode="multiple" placeholder="课程">
+            <Select placeholder="课程">
               <Option value="1">魔法科学</Option>
-              <Option value="2">机器人</Option>
+              <Option value="2">口才课</Option>
+              <Option value="3">初级机器人</Option>
+              <Option value="4">中级机器人</Option>
+              <Option value="5">高级机器人</Option>
             </Select>
           )}
         </FormItem>
@@ -96,7 +100,17 @@ export default class EnrollKe extends PureComponent {
                 message: '请输入节数',
               },
             ],
-          })(<InputNumber placeholder="节数" defaultValue="10" min="0" max="40" />)}
+          })(<InputNumber placeholder="节数" min={0} max={400000} />)}
+        </FormItem>
+        <FormItem {...formItemLayout} label="费用">
+          {getFieldDecorator('fee', {
+            rules: [
+              {
+                required: true,
+                message: '请输入费用',
+              },
+            ],
+          })(<InputNumber placeholder="费用" min={0} max={100000} />)}
         </FormItem>
         <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
           <Button type="primary" htmlType="submit" loading={submitting}>
@@ -109,11 +123,13 @@ export default class EnrollKe extends PureComponent {
 
   render() {
     return (
-      <PageHeaderLayout title="学生报课" content="需要报课程">
+      <PageHeaderWrapper title="学生报课" content="需要报课程">
         <Card bordered={false}>
           <div>{this.renderEnrollKe()}</div>
         </Card>
-      </PageHeaderLayout>
+      </PageHeaderWrapper>
     );
   }
 }
+
+export default EnrollKe;

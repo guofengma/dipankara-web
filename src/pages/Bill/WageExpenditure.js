@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Form, Table, Card, Input, Button, InputNumber, DatePicker, Row, Col, Select } from 'antd';
-// import DescriptionList from 'components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './style.less';
 
-// const { Description } = DescriptionList;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
@@ -58,7 +56,7 @@ class WageExpenditure extends PureComponent {
   // handleFormReset(e) {}
 
   renderTeacherBillForm() {
-    const { submitting, form } = this.props;
+    const { submitting, form, teachers } = this.props;
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: {
@@ -80,14 +78,22 @@ class WageExpenditure extends PureComponent {
     return (
       <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
         <FormItem {...formItemLayout} label="姓名">
-          {getFieldDecorator('name', {
+          {getFieldDecorator('teacherid', {
             rules: [
               {
                 required: true,
                 message: '请输入老师姓名',
               },
             ],
-          })(<Input placeholder="老师姓名" />)}
+          })(
+            <Select placeholder="请选择" style={{ width: 200 }}>
+              {teachers.map(e => (
+                <Option key={e.value} value={e.value}>
+                  {e.name}
+                </Option>
+              ))}
+            </Select>
+          )}
         </FormItem>
         <FormItem {...formItemLayout} label="日期">
           {getFieldDecorator('date', {

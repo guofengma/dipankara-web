@@ -11,6 +11,8 @@ const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 
 @connect(({ bill, loading }) => ({
+  submittingSuit: loading.effects['bill/submitSuitExpenditureForm'],
+  submittingSearch: loading.effects['bill/submitSuitSearch'],
   loading: loading.effects['bill/fetchSuitExpenditure'],
   suitExpenditure: bill.suitExpenditure,
 }))
@@ -29,7 +31,7 @@ class SuitExpenditure extends PureComponent {
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         dispatch({
-          type: 'bill/submitTeacherBillForm',
+          type: 'bill/submitSuitExpenditureForm',
           payload: values,
         });
       }
@@ -42,7 +44,7 @@ class SuitExpenditure extends PureComponent {
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         dispatch({
-          type: 'bill/submitTeacherForm',
+          type: 'bill/submitSuitSearch',
           payload: values,
         });
       }
@@ -52,7 +54,7 @@ class SuitExpenditure extends PureComponent {
   // handleFormReset(e) {}
 
   renderSuitBillForm() {
-    const { submitting, form } = this.props;
+    const { submittingSuit, form } = this.props;
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: {
@@ -74,7 +76,7 @@ class SuitExpenditure extends PureComponent {
     return (
       <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
         <FormItem {...formItemLayout} label="套件">
-          {getFieldDecorator('name', {
+          {getFieldDecorator('suitid', {
             rules: [
               {
                 required: true,
@@ -84,9 +86,9 @@ class SuitExpenditure extends PureComponent {
           })(
             <Select placeholder="请选择" style={{ width: '100%' }}>
               <Option key="1">5岁套件</Option>
-              <Option key="1">7岁套件</Option>
-              <Option key="1">9岁套件</Option>
-              <Option key="1">11岁套件</Option>
+              <Option key="2">7岁套件</Option>
+              <Option key="3">9岁套件</Option>
+              <Option key="4">11岁套件</Option>
             </Select>
           )}
         </FormItem>
@@ -100,28 +102,38 @@ class SuitExpenditure extends PureComponent {
             ],
           })(<DatePicker style={{ width: '100%' }} placeholder="日期" />)}
         </FormItem>
-        <FormItem {...formItemLayout} label="工资">
+        <FormItem {...formItemLayout} label="数量">
+          {getFieldDecorator('num', {
+            rules: [
+              {
+                required: true,
+                message: '请输入数量',
+              },
+            ],
+          })(<InputNumber style={{ width: '100%' }} placeholder="数量" />)}
+        </FormItem>
+        <FormItem {...formItemLayout} label="费用">
           {getFieldDecorator('fee', {
             rules: [
               {
                 required: true,
-                message: '请输入工资',
+                message: '请输入费用',
               },
             ],
-          })(<InputNumber style={{ width: '100%' }} placeholder="工资" />)}
+          })(<InputNumber style={{ width: '100%' }} placeholder="费用" />)}
         </FormItem>
         <FormItem {...formItemLayout} label="备注">
           {getFieldDecorator('remark', {
             rules: [
               {
-                required: true,
+                required: false,
                 message: '请输入备注',
               },
             ],
           })(<Input placeholder="备注" />)}
         </FormItem>
         <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
-          <Button type="primary" htmlType="submit" loading={submitting}>
+          <Button type="primary" htmlType="submit" loading={submittingSuit}>
             提交
           </Button>
         </FormItem>

@@ -1,4 +1,4 @@
-// import { routerRedux } from 'dva/router';
+import { routerRedux } from 'dva/router';
 import { message } from 'antd';
 import {
   queryTuitionIncome,
@@ -8,8 +8,8 @@ import {
   querySuitExpenditure,
   queryOtherExpenditure,
   queryRevenue,
-  submitStudentEnroll,
   submitTeacherBill,
+  submitSuitExpenditure,
 } from '@/services/api';
 
 export default {
@@ -22,15 +22,18 @@ export default {
           key: '1',
           name: '7月份',
           fee: 32,
-        }, {
+        },
+        {
           key: '2',
           name: '8月份',
           fee: 32,
-        }, {
+        },
+        {
           key: '3',
           name: '总计',
           fee: 42,
-      }],
+        },
+      ],
     },
     investIncome: {
       months: [
@@ -38,17 +41,20 @@ export default {
           key: '1',
           name: '7月份',
           fee: 32,
-        }, {
+        },
+        {
           key: '2',
           name: '8月份',
           fee: 32,
-        }, {
+        },
+        {
           key: '3',
           name: '总计',
           fee: 42,
-      }],
+        },
+      ],
       sum: 0,
-      cm: 0, 
+      cm: 0,
     },
     otherIncome: {
       months: [
@@ -57,17 +63,20 @@ export default {
           name: '7月份',
           fee: 32,
           remark: '潜在',
-        }, {
+        },
+        {
           key: '2',
           name: '8月份',
           fee: 32,
           remark: '潜在',
-        }, {
+        },
+        {
           key: '3',
           name: '总计',
           fee: 42,
           remark: '潜在',
-      }],
+        },
+      ],
     },
     wageExpenditure: {
       months: [
@@ -76,12 +85,14 @@ export default {
           name: '7月份',
           fee: 32,
           remark: '潜在',
-        }, {
+        },
+        {
           key: '2',
           name: '8月份',
           fee: 32,
           remark: '潜在',
-        }, {
+        },
+        {
           key: '3',
           name: '总计',
           fee: 42,
@@ -96,12 +107,14 @@ export default {
           name: '7月份',
           fee: 32,
           remark: '潜在',
-        }, {
+        },
+        {
           key: '2',
           name: '8月份',
           fee: 32,
           remark: '潜在',
-        }, {
+        },
+        {
           key: '3',
           name: '总计',
           fee: 42,
@@ -116,12 +129,14 @@ export default {
           name: '7月份',
           fee: 32,
           remark: '潜在',
-        }, {
+        },
+        {
           key: '2',
           name: '8月份',
           fee: 32,
           remark: '潜在',
-        }, {
+        },
+        {
           key: '3',
           name: '总计',
           fee: 42,
@@ -226,28 +241,34 @@ export default {
         });
       }
     },
-    *submitEnrollForm({ payload }, { call }) {
-      yield call(submitStudentEnroll, payload);
-      message.success('提交成功');
-    },
-    *submitTeacherBillForm({ payload }, { call }) {
+    *submitTeacherBillForm({ payload }, { call, put }) {
       const params = {
-        name: payload.name,
-        date: payload.date.format('YYYY-MM-DD'),
-        fee: payload.fee,
+        teacherid: parseInt(payload.teacherid, 10),
+        date: payload.date.format('YYYY-MM-DD HH:mm:ss'),
+        fee: Math.round(payload.fee * 1000),
         remark: payload.remark,
       };
       const res = yield call(submitTeacherBill, params);
       if (res.errorcode === 0) {
-        message.success('成功');
+        yield put(routerRedux.push('/result/success'));
       } else {
-        message.error('失败');
+        yield put(routerRedux.push('/result/fail'));
       }
-      // yield put({
-      //   type: 'saveStepFormData',
-      //   payload,
-      // });
-      // yield put(routerRedux.push('/form/step-form/result'));
+    },
+    *submitSuitExpenditureForm({ payload }, { call, put }) {
+      const params = {
+        suitid: parseInt(payload.suitid, 10),
+        date: payload.date.format('YYYY-MM-DD HH:mm:ss'),
+        num: payload.num,
+        fee: Math.round(payload.fee * 1000),
+        remark: payload.remark,
+      };
+      const res = yield call(submitSuitExpenditure, params);
+      if (res.errorcode === 0) {
+        yield put(routerRedux.push('/result/success'));
+      } else {
+        yield put(routerRedux.push('/result/fail'));
+      }
     },
     *submitTeacherForm({ payload }, { call }) {
       const params = {
@@ -267,10 +288,6 @@ export default {
       //   payload,
       // });
       // yield put(routerRedux.push('/form/step-form/result'));
-    },
-    *submitAdvancedForm({ payload }, { call }) {
-      yield call(fakeSubmitForm, payload);
-      message.success('提交成功');
     },
   },
 

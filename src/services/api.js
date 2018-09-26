@@ -164,7 +164,6 @@ export async function queryClassStudents(params) {
   return request(`/api/student/fetch_class_students?${stringify(params)}`);
 }
 
-// 创建一个新学生
 export async function submitStudentEnroll(params) {
   return request('/api/student/enroll', {
     method: 'POST',
@@ -172,8 +171,8 @@ export async function submitStudentEnroll(params) {
   });
 }
 
-export async function submitTeacherBill(params) {
-  return request('/api/bill/create_wage_expenditure', {
+export async function submitStudentEnrollKe(params) {
+  return request('/api/student/enrollke', {
     method: 'POST',
     body: params,
   });
@@ -206,4 +205,18 @@ export async function queryOtherExpenditure() {
 
 export async function queryRevenue() {
   return request('/api/bill/fetch_revenue');
+}
+
+export async function submitTeacherBill(params) {
+  return request('/api/bill/create_wage_expenditure', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+export async function submitSuitExpenditure(params) {
+  return request('/api/bill/create_suit_expenditure', {
+    method: 'POST',
+    body: params,
+  });
 }

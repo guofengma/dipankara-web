@@ -5,6 +5,7 @@ export default {
   'menu.home': '首页',
   'menu.student': '学生',
   'menu.student.enroll': '学生报名',
+  'menu.student.enrollke': '学生报课',
   'menu.class': '班级',
   'menu.class.query': '班级查询',
   'menu.bill': '账单',

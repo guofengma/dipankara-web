@@ -17,7 +17,7 @@ export default [
     Routes: ['src/pages/Authorized'],
     authority: ['admin', 'user'],
     routes: [
-      { path: '/', redirect: '/dashboard/analysis' },
+      { path: '/', redirect: '/student/enroll' },
       // student
       {
         path: '/student',
@@ -28,6 +28,11 @@ export default [
             path: '/student/enroll',
             name: 'enroll',
             component: './Student/Enroll',
+          },
+          {
+            path: '/student/enrollke',
+            name: 'enrollke',
+            component: './Student/EnrollKe',
           },
         ],
       },
