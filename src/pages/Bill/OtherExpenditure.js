@@ -3,24 +3,16 @@ import { connect } from 'dva';
 import { Form, Input, DatePicker, Select, Button, Card, Table, Col, Row, InputNumber } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './style.less';
-// import TableForm from './TableForm';
 
 const FormItem = Form.Item;
 const { Option } = Select;
 // const { RangePicker } = DatePicker;
 // const { TextArea } = Input;
 
-const fieldLabels = {
-  name2: '教师',
-  url2: '任务描述',
-  owner2: '执行人',
-  approver2: '责任人',
-  dateRange2: '生效日期',
-  type2: '任务类型',
-};
-
 @connect(({ loading, bill }) => ({
   loading: loading.effects['bill/fetchOtherExpenditure'],
+  submittingOther: loading.effects['bill/submitOtherExpenditureForm'],
+  submittingSearch: loading.effects['bill/submitOtherExpenditureSearchForm'],
   otherExpenditure: bill.otherExpenditure,
 }))
 @Form.create()
@@ -32,40 +24,40 @@ class OtherExpenditure extends PureComponent {
     });
   }
 
-  handleSubmitExpenditure(e) {
-    e.preventDefault();
+  handleSubmitExpenditure = e => {
     const { form, dispatch } = this.props;
+    e.preventDefault();
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         dispatch({
-          type: 'form/fetchOtherExpenditure',
+          type: 'bill/submitOtherExpenditureForm',
           payload: values,
         });
       }
     });
-  }
+  };
 
-  handleSearch(e) {
-    e.preventDefault();
+  handleSearch = e => {
     const { form, dispatch } = this.props;
+    e.preventDefault();
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         dispatch({
-          type: 'form/submitRegularForm',
+          type: 'bill/submitOtherExpenditureSearchForm',
           payload: values,
         });
       }
     });
-  }
+  };
 
-  handleFormReset() {
-    console.log(this.props);
-    // const { form } = this.props;
-    // form.resetFields();
-  }
+  // handleFormReset() {
+  //   console.log(this.props);
+  //   // const { form } = this.props;
+  //   // form.resetFields();
+  // }
 
   renderExpenditureForm() {
-    const { submitting, form } = this.props;
+    const { submittingOther, form } = this.props;
     const { getFieldDecorator } = form;
 
     const submitFormLayout = {
@@ -79,73 +71,34 @@ class OtherExpenditure extends PureComponent {
         <Form onSubmit={this.handleSubmitExpenditure} hideRequiredMark style={{ marginTop: 8 }}>
           <Row gutter={16}>
             <Col lg={6} md={12} sm={24}>
-              <Form.Item label="名称">
-                {getFieldDecorator('name2', {
-                  rules: [{ required: true, message: '请输入' }],
-                })(<Input placeholder="请输入" />)}
+              <Form.Item label="日期">
+                {getFieldDecorator('date', {
+                  rules: [{ required: true, message: '请选择日期' }],
+                })(<DatePicker style={{ width: '100%' }} placeholder="日期" />)}
               </Form.Item>
             </Col>
             <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-              <Form.Item label="描述">
-                {getFieldDecorator('url2', {
-                  rules: [{ required: true, message: '请选择' }],
-                })(<Input placeholder="请输入" />)}
-              </Form.Item>
-            </Col>
-            <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-              <Form.Item label="支出">
-                {getFieldDecorator('url2', {
-                  rules: [{ required: true, message: '请选择' }],
+              <Form.Item label="费用">
+                {getFieldDecorator('fee', {
+                  rules: [{ required: true, message: '请输入金额' }],
                 })(<InputNumber placeholder="请输入" style={{ width: '100%' }} />)}
               </Form.Item>
             </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col lg={6} md={12} sm={24}>
-              <Form.Item label={fieldLabels.approver2}>
-                {getFieldDecorator('approver2', {
-                  rules: [{ required: true, message: '请选择审批员' }],
-                })(
-                  <Select placeholder="请选择审批员">
-                    <Option value="xiao">付晓晓</Option>
-                    <Option value="mao">周毛毛</Option>
-                  </Select>
-                )}
-              </Form.Item>
-            </Col>
-            <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-              <Form.Item label={fieldLabels.dateRange2}>
-                {getFieldDecorator('dateRange2', {
-                  rules: [{ required: true, message: '请输入' }],
-                })(
-                  <DatePicker
-                    placeholder="提醒时间"
-                    style={{ width: '100%' }}
-                    getPopupContainer={trigger => trigger.parentNode}
-                  />
-                )}
-              </Form.Item>
-            </Col>
             <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-              <Form.Item label={fieldLabels.type2}>
-                {getFieldDecorator('type2', {
-                  rules: [{ required: true, message: '请选择仓库类型' }],
-                })(
-                  <Select placeholder="请选择仓库类型">
-                    <Option value="private">私密</Option>
-                    <Option value="public">公开</Option>
-                  </Select>
-                )}
+              <Form.Item label="备注">
+                {getFieldDecorator('remark', {
+                  rules: [{ required: true, message: '请输入备注' }],
+                })(<Input placeholder="请输入" style={{ width: '100%' }} />)}
               </Form.Item>
             </Col>
           </Row>
           <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
-            <Button type="primary" htmlType="submit" loading={submitting}>
+            <Button type="primary" htmlType="submit" loading={submittingOther}>
               提交
             </Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+            {/* <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
               重置
-            </Button>
+            </Button> */}
           </FormItem>
         </Form>
       </Card>

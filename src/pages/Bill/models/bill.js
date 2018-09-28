@@ -1,5 +1,5 @@
 import { routerRedux } from 'dva/router';
-import { message } from 'antd';
+// import { message } from 'antd';
 import {
   queryTuitionIncome,
   queryInvestIncome,
@@ -10,6 +10,7 @@ import {
   queryRevenue,
   submitTeacherBill,
   submitSuitExpenditure,
+  submitOtherExpenditure,
 } from '@/services/api';
 
 export default {
@@ -270,24 +271,18 @@ export default {
         yield put(routerRedux.push('/result/fail'));
       }
     },
-    *submitTeacherForm({ payload }, { call }) {
+    *submitOtherExpenditureForm({ payload }, { call, put }) {
       const params = {
-        name: payload.name,
-        date: payload.date.format('YYYY-MM-DD'),
-        fee: payload.fee,
+        date: payload.date.format('YYYY-MM-DD HH:mm:ss'),
+        fee: Math.round(payload.fee * 1000),
         remark: payload.remark,
       };
-      const res = yield call(submitTeacherBill, params);
+      const res = yield call(submitOtherExpenditure, params);
       if (res.errorcode === 0) {
-        message.success('成功');
+        yield put(routerRedux.push('/result/success'));
       } else {
-        message.error('失败');
+        yield put(routerRedux.push('/result/fail'));
       }
-      // yield put({
-      //   type: 'saveStepFormData',
-      //   payload,
-      // });
-      // yield put(routerRedux.push('/form/step-form/result'));
     },
   },
 

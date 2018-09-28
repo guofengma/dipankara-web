@@ -220,3 +220,10 @@ export async function submitSuitExpenditure(params) {
     body: params,
   });
 }
+
+export async function submitOtherExpenditure(params) {
+  return request('/api/bill/create_other_expenditure', {
+    method: 'POST',
+    body: params,
+  });
+}
