@@ -1,15 +1,19 @@
 import React from 'react';
+import { connect } from 'dva';
 import RenderAuthorized from '@/components/Authorized';
 import Exception from '@/components/Exception';
-import { getAuthority } from '@/utils/authority';
+// import { getAuthority } from '@/utils/authority';
 import { formatMessage } from 'umi/locale';
 import Link from 'umi/link';
 import Redirect from 'umi/redirect';
 
-const Authority = getAuthority();
-const Authorized = RenderAuthorized(Authority);
+// const Authority = getAuthority();
+// const Authorized = RenderAuthorized(Authority);
 
-export default ({ children }) => {
+function AuthorizedPage({ children, login }) {
+  const Authority = login.authority;
+  const Authorized = RenderAuthorized(Authority);
+
   let noMatch = (
     <Exception
       type="403"
@@ -29,4 +33,10 @@ export default ({ children }) => {
       {children}
     </Authorized>
   );
-};
+}
+
+function mapStateToProps({ login }) {
+  return { login };
+}
+
+export default connect(mapStateToProps)(AuthorizedPage);

@@ -127,7 +127,7 @@ export async function getFakeCaptcha(mobile) {
 
 // 主页
 export async function queryHome() {
-  return request('/api/home');
+  return request('/api/info');
 }
 
 // 登录请求

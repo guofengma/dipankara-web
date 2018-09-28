@@ -17,12 +17,12 @@ class LoginPage extends Component {
     autoLogin: true,
   };
 
-  // componentDidMount() {
-  //   const { dispatch } = this.props;
-  //   dispatch({
-  //     type: 'home/fetch',
-  //   });
-  // }
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'user/fetchCurrent',
+    });
+  }
 
   onTabChange = type => {
     this.setState({ type });

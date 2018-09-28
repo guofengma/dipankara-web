@@ -10,12 +10,12 @@ export default {
 
   state: {
     status: undefined,
+    authority: ['guest'],
   },
 
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(submitAccountLogin, payload);
-      console.log(response);
       yield put({
         type: 'changeLoginStatus',
         payload: response,
@@ -69,10 +69,13 @@ export default {
   reducers: {
     changeLoginStatus(state, { payload }) {
       setAuthority(payload.currentAuthority);
+      const authority = payload.currentAuthority;
+      const proAuthority = typeof authority === 'string' ? [authority] : authority;
       return {
         ...state,
         status: payload.status,
         type: payload.type,
+        authority: proAuthority,
       };
     },
   },
