@@ -1,6 +1,6 @@
 // import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { queryTeacherList } from '../services/api';
+import { queryTeacherList } from '@/services/api';
 // import { stat } from 'fs';
 
 export default {

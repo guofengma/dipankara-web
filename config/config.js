@@ -15,6 +15,9 @@ export default {
         dva: {
           hmr: true,
         },
+        targets: {
+          ie: 9,
+        },
         locale: {
           enable: true, // default false
           default: 'zh-CN', // default zh-CN
@@ -23,7 +26,6 @@ export default {
         dynamicImport: {
           loadingComponent: './components/PageLoading/index',
         },
-        polyfills: ['ie11'],
         ...(!process.env.TEST && os.platform() === 'darwin'
           ? {
               dll: {
@@ -35,7 +37,16 @@ export default {
           : {}),
       },
     ],
+    [
+      'umi-plugin-ga',
+      {
+        code: 'UA-72788897-6',
+      },
+    ],
   ],
+  targets: {
+    ie: 11,
+  },
   define: {
     APP_TYPE: process.env.APP_TYPE || '',
   },

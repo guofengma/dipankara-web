@@ -19,8 +19,8 @@ import {
   Badge,
   Divider,
 } from 'antd';
-import StandardTable from 'components/StandardTable';
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import StandardTable from '@/components/StandardTable';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './QueryCount.less';
 
@@ -63,7 +63,7 @@ const CreateForm = Form.create()(props => {
   loading: loading.models.rule,
 }))
 @Form.create()
-export default class QueryCallList extends PureComponent {
+class QueryCallList extends PureComponent {
   state = {
     modalVisible: false,
     expandForm: false,
@@ -117,9 +117,9 @@ export default class QueryCallList extends PureComponent {
   };
 
   toggleForm = () => {
-    this.setState({
-      expandForm: !this.state.expandForm,
-    });
+    // this.setState({
+    //   expandForm: !this.state.expandForm,
+    // });
   };
 
   handleMenuClick = e => {
@@ -184,8 +184,9 @@ export default class QueryCallList extends PureComponent {
   };
 
   handleAdd = fields => {
-    this.props.dispatch({
-      type: 'rule/add',
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'class/add',
       payload: {
         description: fields.desc,
       },
@@ -198,7 +199,8 @@ export default class QueryCallList extends PureComponent {
   };
 
   renderSimpleForm() {
-    const { getFieldDecorator } = this.props.form;
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -236,7 +238,8 @@ export default class QueryCallList extends PureComponent {
   }
 
   renderAdvancedForm() {
-    const { getFieldDecorator } = this.props.form;
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -308,11 +311,15 @@ export default class QueryCallList extends PureComponent {
   }
 
   renderForm() {
-    return this.state.expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
+    const { expandForm } = this.state;
+    return expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
+    const {
+      rule: { data },
+      loading,
+    } = this.props;
     const { selectedRows, modalVisible } = this.state;
 
     const columns = [
@@ -390,7 +397,7 @@ export default class QueryCallList extends PureComponent {
     };
 
     return (
-      <PageHeaderLayout title="查询表格">
+      <PageHeaderWrapper title="查询表格">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
@@ -420,7 +427,9 @@ export default class QueryCallList extends PureComponent {
           </div>
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} />
-      </PageHeaderLayout>
+      </PageHeaderWrapper>
     );
   }
 }
+
+export default QueryCallList;
