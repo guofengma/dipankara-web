@@ -10,17 +10,17 @@ const { Option } = Select;
 // const { TextArea } = Input;
 
 @connect(({ loading, bill }) => ({
-  loading: loading.effects['bill/fetchOtherExpenditure'],
-  submittingOther: loading.effects['bill/submitOtherExpenditureForm'],
-  submittingSearch: loading.effects['bill/submitOtherExpenditureSearchForm'],
-  otherExpenditure: bill.otherExpenditure,
+  loading: loading.effects['bill/fetchCompanyExpenditure'],
+  submitting: loading.effects['bill/submitCompanyExpenditureForm'],
+  submittingSearch: loading.effects['bill/submitCompanyExpenditureSearchForm'],
+  companyExpenditure: bill.companyExpenditure,
 }))
 @Form.create()
-class OtherExpenditure extends PureComponent {
+class CompanyExpenditure extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'bill/fetchOtherExpenditure',
+      type: 'bill/fetchCompanyExpenditure',
     });
   }
 
@@ -30,7 +30,7 @@ class OtherExpenditure extends PureComponent {
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         dispatch({
-          type: 'bill/submitOtherExpenditureForm',
+          type: 'bill/submitCompanyExpenditureForm',
           payload: values,
         });
       }
@@ -43,7 +43,7 @@ class OtherExpenditure extends PureComponent {
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         dispatch({
-          type: 'bill/submitOtherExpenditureSearchForm',
+          type: 'bill/submitCompanyExpenditureSearchForm',
           payload: values,
         });
       }
@@ -57,7 +57,7 @@ class OtherExpenditure extends PureComponent {
   // }
 
   renderExpenditureForm() {
-    const { submittingOther, form } = this.props;
+    const { submitting, form } = this.props;
     const { getFieldDecorator } = form;
 
     const submitFormLayout = {
@@ -93,7 +93,7 @@ class OtherExpenditure extends PureComponent {
             </Col>
           </Row>
           <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
-            <Button type="primary" htmlType="submit" loading={submittingOther}>
+            <Button type="primary" htmlType="submit" loading={submitting}>
               提交
             </Button>
             {/* <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
@@ -157,8 +157,8 @@ class OtherExpenditure extends PureComponent {
   }
 
   render() {
-    const { otherExpenditure, loading } = this.props;
-    const dataSource = otherExpenditure.months;
+    const { companyExpenditure, loading } = this.props;
+    const dataSource = companyExpenditure.months;
     const columns = [
       {
         title: '名称',
@@ -196,4 +196,4 @@ class OtherExpenditure extends PureComponent {
   }
 }
 
-export default OtherExpenditure;
+export default CompanyExpenditure;

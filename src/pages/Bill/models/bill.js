@@ -7,6 +7,7 @@ import {
   queryWageExpenditure,
   querySuitExpenditure,
   queryOtherExpenditure,
+  queryCompanyExpenditure,
   queryRevenue,
   submitTeacherBill,
   submitSuitExpenditure,
@@ -145,6 +146,28 @@ export default {
         },
       ],
     },
+    companyExpenditure: {
+      months: [
+        {
+          key: '1',
+          name: '7月份',
+          fee: 32,
+          remark: '潜在',
+        },
+        {
+          key: '2',
+          name: '8月份',
+          fee: 32,
+          remark: '潜在',
+        },
+        {
+          key: '3',
+          name: '总计',
+          fee: 42,
+          remark: '潜在',
+        },
+      ],
+    },
     revenue: {
       left: 0,
     },
@@ -223,6 +246,19 @@ export default {
           type: 'save',
           payload: {
             otherExpenditure: {
+              months: res.months,
+            },
+          },
+        });
+      }
+    },
+    *fetchCompanyExpenditure({ payload }, { call, put }) {
+      const res = yield call(queryCompanyExpenditure, payload);
+      if (res.errorcode === 0) {
+        yield put({
+          type: 'save',
+          payload: {
+            companyExpenditure: {
               months: res.months,
             },
           },

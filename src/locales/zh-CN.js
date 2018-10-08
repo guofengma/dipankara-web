@@ -85,6 +85,7 @@ export default {
   'menu.bill.wage-expenditure': '教师支出',
   'menu.bill.suit-expenditure': '套件支出',
   'menu.bill.other-expenditure': '其他支出',
+  'menu.bill.company-expenditure': '公司支出',
   'menu.bill.revenue': '总营收',
   'menu.dashboard': 'Dashboard',
   'menu.dashboard.analysis': '分析页',

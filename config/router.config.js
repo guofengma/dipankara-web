@@ -86,6 +86,11 @@ export default [
             component: './Bill/OtherExpenditure',
           },
           {
+            path: '/bill/company-expenditure',
+            name: 'company-expenditure',
+            component: './Bill/CompanyExpenditure',
+          },
+          {
             path: '/bill/revenue',
             name: 'revenue',
             component: './Bill/Revenue',

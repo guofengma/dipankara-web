@@ -203,6 +203,10 @@ export async function queryOtherExpenditure() {
   return request('/api/bill/fetch_other_expenditure');
 }
 
+export async function queryCompanyExpenditure() {
+  return request('/api/bill/fetch_company_expenditure');
+}
+
 export async function queryRevenue() {
   return request('/api/bill/fetch_revenue');
 }
