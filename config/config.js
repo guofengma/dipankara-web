@@ -16,7 +16,7 @@ export default {
           hmr: true,
         },
         targets: {
-          ie: 9,
+          ie: 11,
         },
         locale: {
           enable: true, // default false
@@ -60,10 +60,18 @@ export default {
   externals: {
     '@antv/data-set': 'DataSet',
   },
+  // proxy: {
+  //   '/server/api/': {
+  //     target: 'https://preview.pro.ant.design/',
+  //     changeOrigin: true,
+  //     pathRewrite: { '^/server': '' },
+  //   },
+  // },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,
   },
+  disableRedirectHoist: true,
   cssLoaderOptions: {
     modules: true,
     getLocalIdent: (context, localIdentName, localName) => {
